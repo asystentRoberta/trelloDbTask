@@ -21,4 +21,9 @@ public class DbService {
 
         return taskRepository.findAll();
     }
+
+    public void saveSingleTask(Task task) {
+
+        taskRepository.save(task);
+    }
 }
