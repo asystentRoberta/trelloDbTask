@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.com.bohdziewicz.trelloDbTask.domain.TaskDTO;
@@ -35,6 +36,22 @@ public class TaskController {
     String createSingleTask(@RequestBody TaskDTO taskDTO){
         dbService.saveSingleTask(taskMapper.mapTaskDtoToTask(taskDTO));
         return "Ok";
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "deleteAllTasks")
+    String deleteAllTasks() {
+
+        dbService.deleteAllTasks();
+        return "Done";
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "deleteSingleTaskById")
+    String deleteSingleTask(@RequestParam Long taskId) {
+
+        if (dbService.deleteTask(taskId)) {
+            return "Deleted";
+        }
+        return "Not exist";
     }
 
 }

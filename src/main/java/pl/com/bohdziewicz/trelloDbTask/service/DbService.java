@@ -26,4 +26,18 @@ public class DbService {
 
         taskRepository.save(task);
     }
+
+    public void deleteAllTasks() {
+
+        taskRepository.deleteAll();
+    }
+
+    public boolean deleteTask(Long taskId) {
+
+        if (taskRepository.existsById(taskId)) {
+            taskRepository.deleteById(taskId);
+            return true;
+        }
+        return false;
+    }
 }
