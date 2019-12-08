@@ -1,6 +1,7 @@
 package pl.com.bohdziewicz.trelloDbTask.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,10 @@ public class DbService {
     public List<Task> getAllTask() {
 
         return taskRepository.findAll();
+    }
+
+    public Optional<Task> findSingleTaskById(Long taskId){
+        return taskRepository.findById(taskId);
     }
 
     public void saveSingleTask(Task task) {

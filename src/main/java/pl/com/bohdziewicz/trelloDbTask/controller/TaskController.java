@@ -32,6 +32,17 @@ public class TaskController {
 
         return taskMapper.mapTaskListToTaskDtoList(dbService.getAllTask());
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "getSingleTaskById")
+    TaskDTO getSingleTaskById(@RequestParam Long taskId) throws TaskNotFoundException {
+
+        return taskMapper
+                .mapTaskToDtoTask(dbService.findSingleTaskById(taskId)
+                        .orElseThrow(
+                                () -> new TaskNotFoundException("No task with such Id"))
+                );
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "createSingleTask", consumes = APPLICATION_JSON_VALUE)
     String createSingleTask(@RequestBody TaskDTO taskDTO){
         dbService.saveSingleTask(taskMapper.mapTaskDtoToTask(taskDTO));
