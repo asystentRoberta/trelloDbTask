@@ -61,8 +61,9 @@ public class TaskController {
 
         if (dbService.deleteTask(taskId)) {
             return "Deleted";
+        } else {
+            return "Not exist";
         }
-        return "Not exist";
     }
 
 }
