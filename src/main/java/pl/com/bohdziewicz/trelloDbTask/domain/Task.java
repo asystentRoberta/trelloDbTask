@@ -8,8 +8,9 @@ import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Getter
+@Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 @Entity(name = "tasks")
 public class Task {
