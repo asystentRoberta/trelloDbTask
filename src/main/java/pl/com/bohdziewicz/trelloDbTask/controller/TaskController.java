@@ -49,6 +49,16 @@ public class TaskController {
         return "Ok";
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value = "updateExistingTask", consumes = APPLICATION_JSON_VALUE)
+    public String updateExistingTask(@RequestBody TaskDTO taskDTO) {
+
+        if (dbService.updateSingleTask(taskMapper.mapTaskDtoToTask(taskDTO))) {
+            return "Task updated";
+        } else {
+            return "Task with such Id dosn't exist";
+        }
+    }
+
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteAllTasks")
     String deleteAllTasks() {
 
