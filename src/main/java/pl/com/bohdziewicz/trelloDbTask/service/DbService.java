@@ -49,15 +49,12 @@ public class DbService {
     public boolean updateSingleTask(Task task) {
 
         Optional<Task> taskToUpdate = taskRepository.findById(task.getId());
-        if (taskRepository.existsById(task.getId())) {
-            taskToUpdate.ifPresent(value -> {
+
+        taskToUpdate.ifPresent(value -> {
                 value.setTitle(task.getTitle());
                 value.setContent(task.getContent());
+            taskRepository.save(value);
             });
-            taskRepository.save(taskToUpdate.get());
-            return true;
-        } else {
-            return false;
-        }
+        return taskToUpdate.isPresent();
     }
 }
