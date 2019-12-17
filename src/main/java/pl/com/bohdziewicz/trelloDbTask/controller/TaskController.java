@@ -2,6 +2,7 @@ package pl.com.bohdziewicz.trelloDbTask.controller;
 
 import java.util.List;
 
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +52,7 @@ public class TaskController {
         return "Ok";
     }
 
+
     @RequestMapping(method = RequestMethod.PUT, value = "updateExistingTask", consumes = APPLICATION_JSON_VALUE,
             produces = APPLICATION_JSON_VALUE)
     public String updateExistingTask(@RequestBody TaskDTO taskDTO) {
@@ -59,6 +61,7 @@ public class TaskController {
             return "{\"Success\":1}";
         } else {
             return "{\"No such id\":0}";
+
         }
     }
 
