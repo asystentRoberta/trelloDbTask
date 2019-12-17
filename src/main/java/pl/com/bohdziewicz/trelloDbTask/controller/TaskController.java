@@ -2,6 +2,7 @@ package pl.com.bohdziewicz.trelloDbTask.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +17,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/trelloDbTask")
+@CrossOrigin(origins = "*")
 public class TaskController {
 
     private final DbService dbService;
@@ -49,13 +51,14 @@ public class TaskController {
         return "Ok";
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateExistingTask", consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.PUT, value = "updateExistingTask", consumes = APPLICATION_JSON_VALUE,
+            produces = APPLICATION_JSON_VALUE)
     public String updateExistingTask(@RequestBody TaskDTO taskDTO) {
 
         if (dbService.updateSingleTask(taskMapper.mapTaskDtoToTask(taskDTO))) {
-            return "Task updated";
+            return "{\"Success\":1}";
         } else {
-            return "Task with such Id dosn't exist";
+            return "{\"No such id\":0}";
         }
     }
 
