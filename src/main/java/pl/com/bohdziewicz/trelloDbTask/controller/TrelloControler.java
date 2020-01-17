@@ -14,8 +14,13 @@ import pl.com.bohdziewicz.trelloDbTask.trello.client.TrelloClient;
 @RequestMapping("trello")
 public class TrelloControler {
 
+    private final TrelloClient trelloClient;
+
     @Autowired
-    TrelloClient trelloClient;
+    public TrelloControler(TrelloClient trelloClient) {
+
+        this.trelloClient = trelloClient;
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "getTrelloBoards")
     public void getTrelloBoards() {
