@@ -1,4 +1,4 @@
-package pl.com.bohdziewicz.trelloDbTask.controller;
+package pl.com.bohdziewicz.trelloDbTask.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

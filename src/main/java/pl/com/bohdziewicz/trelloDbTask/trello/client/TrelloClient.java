@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import pl.com.bohdziewicz.trelloDbTask.controller.CreatedTrelloCard;
+import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCard;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCardDto;
 
