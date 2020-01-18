@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import pl.com.bohdziewicz.trelloDbTask.controller.CreatedTrelloCard;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoardDto;
+import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCardDto;
 
 @Component
 public class TrelloClient {
@@ -36,6 +38,22 @@ public class TrelloClient {
 
         return Optional.ofNullable(restTemplate.getForObject(url, TrelloBoardDto[].class))
                 .orElseThrow(BoardNotFoundException::new);
+    }
+
+    public CreatedTrelloCard createNewCard(TrelloCardDto trelloCardDto) {
+
+        URI url = UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/cards")
+                .queryParam("key", trelloAppKey)
+                .queryParam("token", trelloAppToken)
+                .queryParam("name", trelloCardDto.getName())
+                .queryParam("desc", trelloCardDto.getDescription())
+                .queryParam("pos", trelloCardDto.getPos())
+                .queryParam("idList", trelloCardDto.getListId())
+                .build()
+                .encode()
+                .toUri();
+
+        return restTemplate.postForObject(url, null, CreatedTrelloCard.class);
     }
 
     private URI getUri() {
