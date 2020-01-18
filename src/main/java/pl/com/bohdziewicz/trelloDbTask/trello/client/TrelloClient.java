@@ -1,9 +1,7 @@
 package pl.com.bohdziewicz.trelloDbTask.trello.client;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +21,8 @@ public class TrelloClient {
     private String trelloAppKey;
     @Value("${trello.app.token}")
     private String trelloAppToken;
+    @Value("${trello.app.username}")
+    private String trelloUsername;
 
     @Autowired
     public TrelloClient(RestTemplate restTemplate) {
@@ -30,22 +30,22 @@ public class TrelloClient {
         this.restTemplate = restTemplate;
     }
 
-    public List<TrelloBoardDto> getTrelloBoard() {
+    public TrelloBoardDto[] getTrelloBoard() throws BoardNotFoundException {
 
-        URI url = UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/robertb57/boards")
+        URI url = getUri();
+
+        return Optional.ofNullable(restTemplate.getForObject(url, TrelloBoardDto[].class))
+                .orElseThrow(BoardNotFoundException::new);
+    }
+
+    private URI getUri() {
+
+        return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/" + trelloUsername + "/boards")
                 .queryParam("key", trelloAppKey)
                 .queryParam("token", trelloAppToken)
                 .queryParam("fields", "name,id")
                 .build()
                 .encode()
                 .toUri();
-
-        TrelloBoardDto[] boardsRespponse =
-                restTemplate.getForObject(url, TrelloBoardDto[].class);
-
-        if (boardsRespponse != null) {
-            return Arrays.asList(boardsRespponse);
-        }
-        return new ArrayList<>();
     }
 }

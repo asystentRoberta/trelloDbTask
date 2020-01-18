@@ -1,6 +1,8 @@
 package pl.com.bohdziewicz.trelloDbTask.controller;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoardDto;
+import pl.com.bohdziewicz.trelloDbTask.trello.client.BoardNotFoundException;
 import pl.com.bohdziewicz.trelloDbTask.trello.client.TrelloClient;
 
 @RestController
@@ -25,12 +28,15 @@ public class TrelloControler {
     @RequestMapping(method = RequestMethod.GET, value = "getTrelloBoards")
     public void getTrelloBoards() {
 
-        List<TrelloBoardDto> trelloBoardDtos = trelloClient.getTrelloBoard();
+        List<TrelloBoardDto> trelloBoardDtos = null;
+        try {
+            trelloBoardDtos = Arrays.asList(trelloClient.getTrelloBoard());
+        } catch (BoardNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        trelloBoardDtos
-                .forEach(trelloBoardDto ->
-                        System.out.println(trelloBoardDto.getId()
-                                + " "
-                                + trelloBoardDto.getName()));
+        Objects.requireNonNull(trelloBoardDtos).stream()
+                .filter(trelloBoardDto -> trelloBoardDto.getName().toLowerCase().contains("kodilla"))
+                .forEach(trelloBoardDto -> System.out.println(trelloBoardDto.getName()));
     }
 }
