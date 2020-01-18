@@ -35,8 +35,15 @@ public class TrelloControler {
             e.printStackTrace();
         }
 
-        Objects.requireNonNull(trelloBoardDtos).stream()
-                .filter(trelloBoardDto -> trelloBoardDto.getName().toLowerCase().contains("kodilla"))
-                .forEach(trelloBoardDto -> System.out.println(trelloBoardDto.getName()));
+        Objects.requireNonNull(trelloBoardDtos).forEach(trelloBoardDto -> {
+            System.out.println(trelloBoardDto.getName() + " - " + trelloBoardDto.getId());
+            System.out.println("This board contains lists:");
+
+            trelloBoardDto.getTrelloListDtos().forEach(trelloListDto -> System.out.println(trelloListDto.getName()
+                    + " - "
+                    + trelloListDto.getId()
+                    + " - "
+                    + trelloListDto.isClosed()));
+        });
     }
 }
