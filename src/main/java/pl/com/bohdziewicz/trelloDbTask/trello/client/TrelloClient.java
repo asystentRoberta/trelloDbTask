@@ -36,25 +36,28 @@ public class TrelloClient {
 
     public CreatedTrelloCard createNewCard(TrelloCardDto trelloCardDto) {
 
-        URI url = UriComponentsBuilder.fromHttpUrl(trelloConfig.getTrelloApiEndpoint() + "/cards")
-                .queryParam("key", trelloConfig.getTrelloAppKey())
-                .queryParam("token", trelloConfig.getTrelloAppToken())
-                .queryParam("name", trelloCardDto.getName())
-                .queryParam("desc", trelloCardDto.getDescription())
-                .queryParam("pos", trelloCardDto.getPos())
-                .queryParam("idList", trelloCardDto.getListId())
-                .build()
-                .encode()
-                .toUri();
+        URI url =
+                UriComponentsBuilder.fromHttpUrl(trelloConfig.getTrelloApiEndpoint() + "/cards")
+                        .queryParam("key", trelloConfig.getTrelloAppKey())
+                        .queryParam("token", trelloConfig.getTrelloAppToken())
+                        .queryParam("name", trelloCardDto.getName())
+                        .queryParam("desc", trelloCardDto.getDescription())
+                        .queryParam("pos", trelloCardDto.getPos())
+                        .queryParam("idList", trelloCardDto.getListId())
+                        .build()
+                        .encode()
+                        .toUri();
 
         return restTemplate.postForObject(url, null, CreatedTrelloCard.class);
     }
 
     private URI getUri() {
 
-        return UriComponentsBuilder
-                .fromHttpUrl(trelloConfig.getTrelloApiEndpoint() + "/members/" + trelloConfig.getTrelloUsername() +
-                        "/boards")
+        return UriComponentsBuilder.fromHttpUrl(
+                trelloConfig.getTrelloApiEndpoint()
+                        + "/members/"
+                        + trelloConfig.getTrelloUsername()
+                        + "/boards")
                 .queryParam("key", trelloConfig.getTrelloAppKey())
                 .queryParam("token", trelloConfig.getTrelloAppToken())
                 .queryParam("fields", "name,id")

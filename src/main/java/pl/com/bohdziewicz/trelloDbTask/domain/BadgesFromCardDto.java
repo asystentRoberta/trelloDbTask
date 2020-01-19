@@ -7,9 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor @AllArgsConstructor @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BadgesFromCardDto {
+class BadgesFromCardDto {
 
     @JsonProperty("votes")
     private int votes;

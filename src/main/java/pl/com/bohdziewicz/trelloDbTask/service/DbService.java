@@ -23,7 +23,8 @@ public class DbService {
         return taskRepository.findAll();
     }
 
-    public Optional<Task> findSingleTaskById(Long taskId){
+    public Optional<Task> findSingleTaskById(Long taskId) {
+
         return taskRepository.findById(taskId);
     }
 
@@ -50,11 +51,12 @@ public class DbService {
 
         Optional<Task> taskToUpdate = taskRepository.findById(task.getId());
 
-        taskToUpdate.ifPresent(value -> {
-                value.setTitle(task.getTitle());
-                value.setContent(task.getContent());
-            taskRepository.save(value);
-            });
+        taskToUpdate.ifPresent(
+                value -> {
+                    value.setTitle(task.getTitle());
+                    value.setContent(task.getContent());
+                    taskRepository.save(value);
+                });
         return taskToUpdate.isPresent();
     }
 }
