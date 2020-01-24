@@ -25,82 +25,93 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class TrelloClientTest {
 
-    @InjectMocks private TrelloClient trelloClient;
-    @Mock private RestTemplate restTemplate;
-    @Mock private TrelloConfig trelloConfig;
-    @Mock private TrelloBoardDto trelloBoardDto;
-    @Mock private TrelloCardDto trelloCardDto;
+  @InjectMocks private TrelloClient trelloClient;
+  @Mock private RestTemplate restTemplate;
+  @Mock private TrelloConfig trelloConfig;
+  @Mock private TrelloBoardDto trelloBoardDto;
+  @Mock private TrelloCardDto trelloCardDto;
 
-    @Before
-    public void init() {
+  @Before
+  public void init() {
 
-        when(trelloConfig.getTrelloApiEndpoint()).thenReturn("http://test.com");
-        when(trelloConfig.getTrelloUsername()).thenReturn("robertb57");
-        when(trelloConfig.getTrelloAppKey()).thenReturn("test");
-        when(trelloConfig.getTrelloAppToken()).thenReturn("test");
-    }
+    when(trelloConfig.getTrelloApiEndpoint()).thenReturn("http://test.com");
+    when(trelloConfig.getTrelloUsername()).thenReturn("robertb57");
+    when(trelloConfig.getTrelloAppKey()).thenReturn("test");
+    when(trelloConfig.getTrelloAppToken()).thenReturn("test");
+  }
 
-    @Test
-    public void shouldFetchTrelloBoards() throws BoardNotFoundException {
+  @Test
+  public void shouldFetchTrelloBoards() throws BoardNotFoundException {
 
-        // Given
-        TrelloBoardDto[] trelloBoardDtos = new TrelloBoardDto[1];
-        trelloBoardDtos[0] = new TrelloBoardDto("testId", "testBoard", new ArrayList<>());
-        when(restTemplate.getForObject(getUrlForGettingTrelloBoards(), TrelloBoardDto[].class))
-                .thenReturn(trelloBoardDtos);
+    // Given
+    TrelloBoardDto[] trelloBoardDtos = new TrelloBoardDto[1];
+    trelloBoardDtos[0] = new TrelloBoardDto("testId", "testBoard", new ArrayList<>());
+    when(restTemplate.getForObject(getUrlForGettingTrelloBoards(), TrelloBoardDto[].class))
+            .thenReturn(trelloBoardDtos);
 
-        // When
+    // When
 
-        TrelloBoardDto[] fetchedTrelloBoards = trelloClient.getTrelloBoard();
+    TrelloBoardDto[] fetchedTrelloBoards = trelloClient.getTrelloBoard();
 
-        // Then
-        assertEquals(1, fetchedTrelloBoards.length);
-        assertEquals("testId", fetchedTrelloBoards[0].getId());
-        assertEquals("testBoard", fetchedTrelloBoards[0].getName());
-        assertEquals(new ArrayList<>(), fetchedTrelloBoards[0].getTrelloListDtos());
-    }
+    // Then
+    assertEquals(1, fetchedTrelloBoards.length);
+    assertEquals("testId", fetchedTrelloBoards[0].getId());
+    assertEquals("testBoard", fetchedTrelloBoards[0].getName());
+    assertEquals(new ArrayList<>(), fetchedTrelloBoards[0].getTrelloListDtos());
+  }
 
-    @Test
-    public void shouldCreateCard() throws URISyntaxException {
+  @Test
+  public void shouldCreateCard() throws URISyntaxException {
 
-        // Given
+    // Given
 
-        URI uri =
-                new URI(
-                        "http://test.com/cards?key=test&token=test&name=Test%20task&desc=Test%20description&pos=top"
-                                + "&idList=test_id");
-        TrelloCardDto trelloCardDto =
-                new TrelloCardDto("Test task", "Test description", "top", "test_id");
+    URI uri =
+            new URI(
+                    "http://test.com/cards?key=test&token=test&name=Test%20task&desc=Test%20description&pos=top"
+                            + "&idList=test_id");
+    TrelloCardDto trelloCardDto =
+            new TrelloCardDto("Test task", "Test description", "top", "test_id");
 
-        CreatedTrelloCard createdTrelloCard =
-                new CreatedTrelloCard("1", "Test task", "http://test.com", new BadgesFromCardDto());
+    CreatedTrelloCard createdTrelloCard =
+            new CreatedTrelloCard("1", "Test task", "http://test.com", new BadgesFromCardDto());
 
-        when(restTemplate.postForObject(uri, null, CreatedTrelloCard.class))
-                .thenReturn(createdTrelloCard);
+    when(restTemplate.postForObject(uri, null, CreatedTrelloCard.class))
+            .thenReturn(createdTrelloCard);
 
-        // When
-        CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCardDto);
+    // When
+    CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCardDto);
 
-        // Then
-        assertEquals("1", newCard.getId());
-        assertEquals("Test task", newCard.getName());
-        assertEquals("http://test.com", newCard.getShortUrl());
-        assertEquals(new BadgesFromCardDto().getVotes(), newCard.getBadgesFromCardDto().getVotes());
-    }
+    // Then
+    assertEquals("1", newCard.getId());
+    assertEquals("Test task", newCard.getName());
+    assertEquals("http://test.com", newCard.getShortUrl());
+    assertEquals(new BadgesFromCardDto().getVotes(), newCard.getBadgesFromCardDto().getVotes());
+  }
 
-    private URI getUrlForGettingTrelloBoards() {
+  @Test(expected = BoardNotFoundException.class)
+  public void shouldThrowBoardNoFoundException() throws URISyntaxException, BoardNotFoundException {
 
-        return UriComponentsBuilder.fromHttpUrl(
-                trelloConfig.getTrelloApiEndpoint()
-                        + "/members/"
-                        + trelloConfig.getTrelloUsername()
-                        + "/boards")
-                .queryParam("key", trelloConfig.getTrelloAppKey())
-                .queryParam("token", trelloConfig.getTrelloAppToken())
-                .queryParam("fields", "name,id")
-                .queryParam("lists", "all")
-                .build()
-                .encode()
-                .toUri();
-    }
+    // Given
+    URI url = new URI("http://badurl.com");
+
+    // When
+    trelloClient.getTrelloBoard();
+    System.out.println("ui");
+  }
+
+  private URI getUrlForGettingTrelloBoards() {
+
+    return UriComponentsBuilder.fromHttpUrl(
+            trelloConfig.getTrelloApiEndpoint()
+                    + "/members/"
+                    + trelloConfig.getTrelloUsername()
+                    + "/boards")
+            .queryParam("key", trelloConfig.getTrelloAppKey())
+            .queryParam("token", trelloConfig.getTrelloAppToken())
+            .queryParam("fields", "name,id")
+            .queryParam("lists", "all")
+            .build()
+            .encode()
+            .toUri();
+  }
 }
