@@ -2,7 +2,6 @@ package pl.com.bohdziewicz.trelloDbTask.controller;
 
 import java.util.List;
 
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,21 +38,26 @@ public class TaskController {
     @RequestMapping(method = RequestMethod.GET, value = "getSingleTaskById")
     TaskDTO getSingleTaskById(@RequestParam Long taskId) throws TaskNotFoundException {
 
-        return taskMapper
-                .mapTaskToDtoTask(dbService.findSingleTaskById(taskId)
-                        .orElseThrow(
-                                () -> new TaskNotFoundException("No task with such Id"))
-                );
+        return taskMapper.mapTaskToDtoTask(
+                dbService
+                        .findSingleTaskById(taskId)
+                        .orElseThrow(() -> new TaskNotFoundException("No task with such Id")));
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createSingleTask", consumes = APPLICATION_JSON_VALUE)
-    String createSingleTask(@RequestBody TaskDTO taskDTO){
+    @RequestMapping(
+            method = RequestMethod.POST,
+            value = "createSingleTask",
+            consumes = APPLICATION_JSON_VALUE)
+    String createSingleTask(@RequestBody TaskDTO taskDTO) {
+
         dbService.saveSingleTask(taskMapper.mapTaskDtoToTask(taskDTO));
         return "Ok";
     }
 
-
-    @RequestMapping(method = RequestMethod.PUT, value = "updateExistingTask", consumes = APPLICATION_JSON_VALUE,
+    @RequestMapping(
+            method = RequestMethod.PUT,
+            value = "updateExistingTask",
+            consumes = APPLICATION_JSON_VALUE,
             produces = APPLICATION_JSON_VALUE)
     public String updateExistingTask(@RequestBody TaskDTO taskDTO) {
 
@@ -61,7 +65,6 @@ public class TaskController {
             return "{\"Success\":1}";
         } else {
             return "{\"No such id\":0}";
-
         }
     }
 
@@ -81,5 +84,4 @@ public class TaskController {
             return "Not exist";
         }
     }
-
 }
