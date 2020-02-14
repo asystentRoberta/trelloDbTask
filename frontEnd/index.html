@@ -18,7 +18,7 @@ minimum-scale=1.0">
         <form
                 class="datatable__row datatable__row--add"
                 method="POST"
-                action="http://localhost:8080/trelloDbTask/createSingleTask"
+                action=""
                 data-task-add-form
         >
             <fieldset class="datatable__row-section datatable__row-section--input-section">
@@ -79,7 +79,7 @@ minimum-scale=1.0">
             </label>
             <p class="datatable__field-value" data-task-content-paragraph></p>
         </fieldset>
-
+        <div class="datatable__row-section-wrapper">
         <fieldset class="datatable__row-section datatable__row-section--button-section">
             <button type="button" data-task-submit-update-button class="datatable__button datatable__button--editing">
                 Submit update
@@ -90,6 +90,26 @@ minimum-scale=1.0">
             <button type="button" data-task-edit-button class="datatable__button">Edit</button>
             <button type="button" data-task-delete-button class="datatable__button">Delete</button>
         </fieldset>
+
+            <fieldset class="datatable__row-section datatable__row-section--trello-section">
+
+                <label>
+                    <select class="datatable__select" data-board-name-select name="board-name">
+                        <option disabled selected>--- select an board ---</option>
+                    </select>
+
+
+                    <select class="datatable__select" data-list-name-select name="list-name">
+                        <option disabled selected>--- select a list ---</option>
+                    </select>
+                </label>
+
+                <button class="datatable__button datatable__button--card-creation" data-trello-card-creation-trigger
+                        type="button">
+                    Create a card
+                </button>
+            </fieldset>
+        </div>
 
     </form>
 </div>
