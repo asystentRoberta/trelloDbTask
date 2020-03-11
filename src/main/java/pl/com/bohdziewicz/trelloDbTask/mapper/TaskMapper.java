@@ -13,20 +13,12 @@ public class TaskMapper {
 
     public Task mapTaskDtoToTask(final TaskDTO taskDto) {
 
-        return new Task(
-                taskDto.getId(),
-                taskDto.getTitle(),
-                taskDto.getContent()
-        );
+        return new Task(taskDto.getId(), taskDto.getTitle(), taskDto.getContent());
     }
 
     public TaskDTO mapTaskToDtoTask(final Task task) {
 
-        return new TaskDTO(
-                task.getId(),
-                task.getTitle(),
-                task.getContent()
-        );
+        return new TaskDTO(task.getId(), task.getTitle(), task.getContent());
     }
 
     public List<TaskDTO> mapTaskListToTaskDtoList(final List<Task> taskList) {

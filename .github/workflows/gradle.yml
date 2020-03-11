@@ -19,5 +19,7 @@ jobs:
         env:
           trelloAppUser: testUser
           dbTrelloPassword: testPassword
+          trelloTrelloAppKey: testKey
+          trelloTrellAppToken: testAppToken
 
 

@@ -10,13 +10,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "tasks")
 public class Task {
 
-    @Id @GeneratedValue
-    private Long id;
+    @Id @GeneratedValue private Long id;
     @Column(name = "name")
     private String title;
     @Column(name = "description")
