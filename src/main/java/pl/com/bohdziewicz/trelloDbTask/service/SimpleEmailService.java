@@ -7,6 +7,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import pl.com.bohdziewicz.trelloDbTask.domain.Mail;
+
 @Service
 public class SimpleEmailService {
 
@@ -18,25 +20,24 @@ public class SimpleEmailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void send(final String receiverEmail, final String subject, final String message) {
+    public void send(final Mail mail) {
 
         LOGGER.info("Starting email preparation...");
+
         try {
-            SimpleMailMessage mailMessage = createMailMessage(receiverEmail, subject, message);
-            javaMailSender.send(mailMessage);
+            javaMailSender.send(createMailMessage(mail));
             LOGGER.info("Email has been sent.");
         } catch (MailException exception) {
             LOGGER.error("Failed to process email sending: " + exception.getMessage(), exception);
         }
     }
 
-    private SimpleMailMessage createMailMessage(final String receiverEmail, final String subject,
-            final String message) {
+    private SimpleMailMessage createMailMessage(final Mail mail) {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(receiverEmail);
-        mailMessage.setSubject(subject);
-        mailMessage.setText(message);
+        mailMessage.setTo(mail.getMailTo());
+        mailMessage.setSubject(mail.getSubject());
+        mailMessage.setText(mail.getMessage());
         return mailMessage;
     }
 }
