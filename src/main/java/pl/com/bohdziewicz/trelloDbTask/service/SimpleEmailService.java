@@ -13,14 +13,14 @@ import pl.com.bohdziewicz.trelloDbTask.domain.Mail;
 @Service
 public class SimpleEmailService {
 
-    private final JavaMailSenderImpl javaMailSenderImpl;
+    private final JavaMailSenderImpl javaMailSender;
     private final MailConfig mailConfig;
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleMailMessage.class);
 
     public SimpleEmailService(JavaMailSenderImpl javaMailSender, MailConfig mailConfig) {
 
         this.mailConfig = mailConfig;
-        this.javaMailSenderImpl = javaMailSender;
+        this.javaMailSender = javaMailSender;
         javaMailSender.setUsername(mailConfig.getMailSender());
         javaMailSender.setPassword(mailConfig.getMailPassword());
     }
@@ -30,7 +30,7 @@ public class SimpleEmailService {
         LOGGER.info("Starting email preparation...");
 
         try {
-            javaMailSenderImpl.send(createMailMessage(mail));
+            javaMailSender.send(createMailMessage(mail));
             LOGGER.info("Email has been sent.");
         } catch (MailException exception) {
             LOGGER.error("Failed to process email sending: " + exception.getMessage(), exception);
