@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCard;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCardDto;
+import pl.com.bohdziewicz.trelloDbTask.service.TrelloService;
 import pl.com.bohdziewicz.trelloDbTask.trello.client.BoardNotFoundException;
-import pl.com.bohdziewicz.trelloDbTask.trello.client.TrelloClient;
 
 @RestController
 @RequestMapping("trello")
@@ -25,12 +25,12 @@ import pl.com.bohdziewicz.trelloDbTask.trello.client.TrelloClient;
 
 public class TrelloControler {
 
-    private final TrelloClient trelloClient;
+    private final TrelloService trelloService;
 
     @Autowired
-    public TrelloControler(TrelloClient trelloClient) {
+    public TrelloControler(TrelloService trelloService) {
 
-        this.trelloClient = trelloClient;
+        this.trelloService = trelloService;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getTrelloBoards")
@@ -38,7 +38,7 @@ public class TrelloControler {
 
         List<TrelloBoardDto> trelloBoardDtos = null;
         try {
-            trelloBoardDtos = Arrays.asList(trelloClient.getTrelloBoard());
+            trelloBoardDtos = Arrays.asList(trelloService.fetchTrelloBoards());
         } catch (BoardNotFoundException e) {
             e.printStackTrace();
         }
@@ -48,6 +48,6 @@ public class TrelloControler {
     @RequestMapping(method = RequestMethod.POST, value = "createTrelloCard")
     public CreatedTrelloCard createdTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
 
-        return trelloClient.createNewCard(trelloCardDto);
+        return trelloService.createTrelloCard(trelloCardDto);
     }
 }

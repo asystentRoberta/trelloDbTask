@@ -21,5 +21,7 @@ jobs:
           dbTrelloPassword: testPassword
           trelloTrelloAppKey: testKey
           trelloTrellAppToken: testAppToken
+          gmailAccountForJava: gmailAccountForJava
+          gmailPasswordForJava: gmailPasswordForJava
 
 
