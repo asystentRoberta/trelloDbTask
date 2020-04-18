@@ -1,6 +1,8 @@
 $(document).ready(function () {
+  
     const apiRoot = 'https://trello-todo-tasks.herokuapp.com/trelloDbTask';
     const trelloApiRoot = 'https://trello-todo-tasks.herokuapp.com/trello/';
+
     const datatableRowTemplate = $('[data-datatable-row-template]').children()[0];
     const tasksContainer = $('[data-tasks-container]');
     const fieldForAddingNewTask = $('[data-task-add-form]');
