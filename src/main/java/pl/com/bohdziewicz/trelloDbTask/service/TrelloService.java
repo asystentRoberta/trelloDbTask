@@ -1,5 +1,7 @@
 package pl.com.bohdziewicz.trelloDbTask.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import pl.com.bohdziewicz.trelloDbTask.config.AdminConfig;
@@ -16,6 +18,7 @@ import static java.util.Optional.ofNullable;
 public class TrelloService {
 
     private static final String SUBJECT = "Tasks: New Trello card";
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrelloService.class);
     private final TrelloClient trelloClient;
     private final SimpleEmailService emailService;
     private final AdminConfig adminConfig;
@@ -27,9 +30,16 @@ public class TrelloService {
         this.adminConfig = adminConfig;
     }
 
-    public TrelloBoardDto[] fetchTrelloBoardsDto() throws BoardNotFoundException {
+    public TrelloBoardDto[] fetchTrelloBoardsDto() {
 
-        return trelloClient.getTrelloBoard();
+        try {
+            return trelloClient.getTrelloBoard();
+        } catch (BoardNotFoundException e) {
+            e.printStackTrace();
+            LOGGER.info("Problem with getting boards from trello service.");
+        }
+        LOGGER.info("TrelloService returned empty array.");
+        return new TrelloBoardDto[0];
     }
 
     public CreatedTrelloCardDto createTrelloCardDto(final TrelloCardDto trelloCardDto) {

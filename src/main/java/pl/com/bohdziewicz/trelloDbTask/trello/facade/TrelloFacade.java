@@ -14,7 +14,6 @@ import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCard;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.mapper.TrelloMapper;
 import pl.com.bohdziewicz.trelloDbTask.service.TrelloService;
-import pl.com.bohdziewicz.trelloDbTask.trello.client.BoardNotFoundException;
 import pl.com.bohdziewicz.trelloDbTask.trello.validator.TrelloValidator;
 
 @Component
@@ -32,10 +31,7 @@ public class TrelloFacade {
         this.trelloValidator = trelloValidator;
     }
 
-    //TODO: zdecydować się czy zwracamy listę czy tablicę i to ujednolicić!
-    //Fasada zwraca listę, a trello service z jakiegoś powodu (nie pamiętam jakiego) tablicę.
-
-    public List<TrelloBoardDto> fetchTrelloBoard() throws BoardNotFoundException {
+    public List<TrelloBoardDto> fetchTrelloBoard() {
 
         List<TrelloBoard> trelloBoards = trelloMapper.mapToBoards(Arrays.asList(trelloService.fetchTrelloBoardsDto()));
         List<TrelloBoard> filteredBoards = trelloValidator.validateTrelloBoard(trelloBoards);
