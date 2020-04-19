@@ -26,6 +26,7 @@ public class TrelloClient {
         this.trelloConfig = trelloConfig;
     }
 
+    //TODO: do refactor - use List instead array.
     public TrelloBoardDto[] getTrelloBoard() throws BoardNotFoundException {
 
         URI url = getUri();
