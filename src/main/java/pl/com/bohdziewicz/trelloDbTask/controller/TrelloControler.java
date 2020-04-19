@@ -4,9 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
-
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,7 +36,7 @@ public class TrelloControler {
 
         List<TrelloBoardDto> trelloBoardDtos = null;
         try {
-            trelloBoardDtos = Arrays.asList(trelloService.fetchTrelloBoards());
+            trelloBoardDtos = Arrays.asList(trelloService.fetchTrelloBoardsDto());
         } catch (BoardNotFoundException e) {
             e.printStackTrace();
         }

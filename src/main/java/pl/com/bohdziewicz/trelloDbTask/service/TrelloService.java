@@ -27,7 +27,7 @@ public class TrelloService {
         this.adminConfig = adminConfig;
     }
 
-    public TrelloBoardDto[] fetchTrelloBoards() throws BoardNotFoundException {
+    public TrelloBoardDto[] fetchTrelloBoardsDto() throws BoardNotFoundException {
 
         return trelloClient.getTrelloBoard();
     }
