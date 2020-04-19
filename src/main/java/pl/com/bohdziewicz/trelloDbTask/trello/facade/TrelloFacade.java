@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoard;
@@ -16,6 +17,7 @@ import pl.com.bohdziewicz.trelloDbTask.service.TrelloService;
 import pl.com.bohdziewicz.trelloDbTask.trello.client.BoardNotFoundException;
 import pl.com.bohdziewicz.trelloDbTask.trello.validator.TrelloValidator;
 
+@Component
 public class TrelloFacade {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrelloFacade.class);
