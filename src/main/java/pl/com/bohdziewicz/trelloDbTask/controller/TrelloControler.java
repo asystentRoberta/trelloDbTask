@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCard;
+import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.service.TrelloService;
@@ -44,8 +44,8 @@ public class TrelloControler {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createTrelloCard")
-    public CreatedTrelloCard createdTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
+    public CreatedTrelloCardDto createdTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
 
-        return trelloService.createTrelloCard(trelloCardDto);
+        return trelloService.createTrelloCardDto(trelloCardDto);
     }
 }

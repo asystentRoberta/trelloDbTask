@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import pl.com.bohdziewicz.trelloDbTask.domain.BadgesFromCardDto;
-import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCard;
+import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.trello.config.TrelloConfig;
@@ -72,14 +72,14 @@ public class TrelloClientTest {
     TrelloCardDto trelloCardDto =
             new TrelloCardDto("Test task", "Test description", "top", "test_id");
 
-    CreatedTrelloCard createdTrelloCard =
-            new CreatedTrelloCard("1", "Test task", "http://test.com", new BadgesFromCardDto());
+      CreatedTrelloCardDto createdTrelloCardDto =
+              new CreatedTrelloCardDto("1", "Test task", "http://test.com", new BadgesFromCardDto());
 
-    when(restTemplate.postForObject(uri, null, CreatedTrelloCard.class))
-            .thenReturn(createdTrelloCard);
+      when(restTemplate.postForObject(uri, null, CreatedTrelloCardDto.class))
+              .thenReturn(createdTrelloCardDto);
 
     // When
-    CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCardDto);
+      CreatedTrelloCardDto newCard = trelloClient.createNewCard(trelloCardDto);
 
     // Then
     assertEquals("1", newCard.getId());
