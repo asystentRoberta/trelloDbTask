@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoard;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoardDto;
+import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCard;
+import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloList;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloListDto;
 
@@ -45,5 +47,17 @@ public class TrelloMapper {
         return trelloListDtos.stream()
                 .map(trelloList -> new TrelloList(trelloList.getId(), trelloList.getName(), trelloList.isClosed()))
                 .collect(toList());
+    }
+
+    public TrelloCardDto mapToCardDto(final TrelloCard trelloCard) {
+
+        return new TrelloCardDto(trelloCard.getName(), trelloCard.getDescription(), trelloCard.getPos(),
+                trelloCard.getListId());
+    }
+
+    public TrelloCard mapToCard(final TrelloCardDto trelloCardDto) {
+
+        return new TrelloCard(trelloCardDto.getName(), trelloCardDto.getDescription(), trelloCardDto.getPos(),
+                trelloCardDto.getListId());
     }
 }

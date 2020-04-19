@@ -3,7 +3,7 @@ package pl.com.bohdziewicz.trelloDbTask.service;
 import org.springframework.stereotype.Service;
 
 import pl.com.bohdziewicz.trelloDbTask.config.AdminConfig;
-import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCard;
+import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.Mail;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCardDto;
@@ -32,9 +32,9 @@ public class TrelloService {
         return trelloClient.getTrelloBoard();
     }
 
-    public CreatedTrelloCard createTrelloCard(final TrelloCardDto trelloCardDto) {
+    public CreatedTrelloCardDto createTrelloCardDto(final TrelloCardDto trelloCardDto) {
 
-        CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCardDto);
+        CreatedTrelloCardDto newCard = trelloClient.createNewCard(trelloCardDto);
         ofNullable(newCard).ifPresent(card ->
                 emailService.send(new Mail(
                         adminConfig.getAdminMail(),
