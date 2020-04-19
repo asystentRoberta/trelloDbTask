@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoard;
+import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCard;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.mapper.TrelloMapper;
@@ -30,7 +31,7 @@ public class TrelloFacade {
     //TODO: zdecydować się czy zwracamy listę czy tablicę i to ujednolicić!
     //Fasada zwraca listę, a trello service z jakiegoś powodu (nie pamiętam jakiego) tablicę.
 
-    public List<TrelloBoard> fetchTrelloBoard() throws BoardNotFoundException {
+    public List<TrelloBoardDto> fetchTrelloBoard() throws BoardNotFoundException {
 
         List<TrelloBoard> trelloBoards = trelloMapper.mapToBoards(Arrays.asList(trelloService.fetchTrelloBoardsDto()));
         LOGGER.info("Starting filtering boards...");
@@ -39,7 +40,7 @@ public class TrelloFacade {
                 .filter(trelloBoard -> !trelloBoard.getName().equalsIgnoreCase("test"))
                 .collect(Collectors.toList());
         LOGGER.info("Boards have been filtered. Current list size: " + filteredBoards.size());
-        return filteredBoards;
+        return trelloMapper.mapToBoardDto(filteredBoards);
     }
 
     public CreatedTrelloCardDto createdTrelloCardDto(final TrelloCardDto trelloCardDto) {
