@@ -2,7 +2,6 @@ package pl.com.bohdziewicz.trelloDbTask.trello.facade;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,17 +14,20 @@ import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.mapper.TrelloMapper;
 import pl.com.bohdziewicz.trelloDbTask.service.TrelloService;
 import pl.com.bohdziewicz.trelloDbTask.trello.client.BoardNotFoundException;
+import pl.com.bohdziewicz.trelloDbTask.trello.validator.TrelloValidator;
 
 public class TrelloFacade {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrelloFacade.class);
     private TrelloService trelloService;
     private TrelloMapper trelloMapper;
+    private TrelloValidator trelloValidator;
 
-    TrelloFacade(TrelloService trelloService, TrelloMapper trelloMapper) {
+    TrelloFacade(TrelloService trelloService, TrelloMapper trelloMapper, TrelloValidator trelloValidator) {
 
         this.trelloService = trelloService;
         this.trelloMapper = trelloMapper;
+        this.trelloValidator = trelloValidator;
     }
 
     //TODO: zdecydować się czy zwracamy listę czy tablicę i to ujednolicić!
@@ -34,23 +36,14 @@ public class TrelloFacade {
     public List<TrelloBoardDto> fetchTrelloBoard() throws BoardNotFoundException {
 
         List<TrelloBoard> trelloBoards = trelloMapper.mapToBoards(Arrays.asList(trelloService.fetchTrelloBoardsDto()));
-        LOGGER.info("Starting filtering boards...");
-        List<TrelloBoard> filteredBoards = trelloBoards
-                .stream()
-                .filter(trelloBoard -> !trelloBoard.getName().equalsIgnoreCase("test"))
-                .collect(Collectors.toList());
-        LOGGER.info("Boards have been filtered. Current list size: " + filteredBoards.size());
+        List<TrelloBoard> filteredBoards = trelloValidator.validateTrelloBoard(trelloBoards);
         return trelloMapper.mapToBoardDto(filteredBoards);
     }
 
     public CreatedTrelloCardDto createdTrelloCardDto(final TrelloCardDto trelloCardDto) {
 
         TrelloCard trelloCard = trelloMapper.mapToCard(trelloCardDto);
-        if (trelloCard.getName().contains("test")) {
-            LOGGER.info("Someone is testing my application.");
-        } else {
-            LOGGER.info("Just new card was created");
-        }
+        trelloValidator.validateCard(trelloCard);
         return trelloService.createTrelloCardDto(trelloMapper.mapToCardDto(trelloCard));
     }
 }
