@@ -3,6 +3,7 @@ package pl.com.bohdziewicz.trelloDbTask.trello.client;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -51,13 +52,13 @@ public class TrelloClientTest {
 
     // When
 
-    TrelloBoardDto[] fetchedTrelloBoards = trelloClient.getTrelloBoard();
+    List<TrelloBoardDto> fetchedTrelloBoards = trelloClient.getTrelloBoard();
 
     // Then
-    assertEquals(1, fetchedTrelloBoards.length);
-    assertEquals("testId", fetchedTrelloBoards[0].getId());
-    assertEquals("testBoard", fetchedTrelloBoards[0].getName());
-    assertEquals(new ArrayList<>(), fetchedTrelloBoards[0].getTrelloListDtos());
+    assertEquals(1, fetchedTrelloBoards.size());
+    assertEquals("testId", fetchedTrelloBoards.get(0).getId());
+    assertEquals("testBoard", fetchedTrelloBoards.get(0).getName());
+    assertEquals(new ArrayList<>(), fetchedTrelloBoards.get(0).getTrelloListDtos());
   }
 
   @Test

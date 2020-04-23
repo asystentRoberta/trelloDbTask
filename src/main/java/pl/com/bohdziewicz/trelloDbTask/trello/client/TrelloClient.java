@@ -1,6 +1,9 @@
 package pl.com.bohdziewicz.trelloDbTask.trello.client;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +29,17 @@ public class TrelloClient {
         this.trelloConfig = trelloConfig;
     }
 
-    //TODO: do refactor - use List instead array.
-    public TrelloBoardDto[] getTrelloBoard() throws BoardNotFoundException {
+    public List<TrelloBoardDto> getTrelloBoard() throws BoardNotFoundException {
 
         URI url = getUri();
 
-        return Optional.ofNullable(restTemplate.getForObject(url, TrelloBoardDto[].class))
-                .orElseThrow(BoardNotFoundException::new);
+        final TrelloBoardDto[] trelloBoardsResponeDtoArray =
+                Optional.ofNullable(restTemplate.getForObject(url, TrelloBoardDto[].class))
+                        .orElseThrow(BoardNotFoundException::new);
+        if (trelloBoardsResponeDtoArray != null) {
+            return Arrays.asList(trelloBoardsResponeDtoArray);
+        }
+        return new ArrayList<>();
     }
 
     public CreatedTrelloCardDto createNewCard(TrelloCardDto trelloCardDto) {

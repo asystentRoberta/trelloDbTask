@@ -1,6 +1,5 @@
 package pl.com.bohdziewicz.trelloDbTask.trello.facade;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -33,7 +32,7 @@ public class TrelloFacade {
 
     public List<TrelloBoardDto> fetchTrelloBoard() {
 
-        List<TrelloBoard> trelloBoards = trelloMapper.mapToBoards(Arrays.asList(trelloService.fetchTrelloBoardsDto()));
+        List<TrelloBoard> trelloBoards = trelloMapper.mapToBoards(trelloService.fetchTrelloBoardsDto());
         List<TrelloBoard> filteredBoards = trelloValidator.validateTrelloBoard(trelloBoards);
         return trelloMapper.mapToBoardDto(filteredBoards);
     }
