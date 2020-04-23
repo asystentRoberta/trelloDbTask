@@ -1,5 +1,8 @@
 package pl.com.bohdziewicz.trelloDbTask.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -30,7 +33,7 @@ public class TrelloService {
         this.adminConfig = adminConfig;
     }
 
-    public TrelloBoardDto[] fetchTrelloBoardsDto() {
+    public List<TrelloBoardDto> fetchTrelloBoardsDto() {
 
         try {
             return trelloClient.getTrelloBoard();
@@ -39,7 +42,7 @@ public class TrelloService {
             LOGGER.info("Problem with getting boards from trello service.");
         }
         LOGGER.info("TrelloService returned empty array.");
-        return new TrelloBoardDto[0];
+        return new ArrayList<>();
     }
 
     public CreatedTrelloCardDto createTrelloCardDto(final TrelloCardDto trelloCardDto) {
