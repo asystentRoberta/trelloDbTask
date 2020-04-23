@@ -6,10 +6,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import pl.com.bohdziewicz.trelloDbTask.config.MailConfig;
 import pl.com.bohdziewicz.trelloDbTask.domain.Mail;
 
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -19,7 +21,9 @@ public class SimpleEmailServiceTest {
     @InjectMocks
     private SimpleEmailService simpleEmailService;
     @Mock
-    private JavaMailSender javaMailSender;
+    private JavaMailSenderImpl javaMailSender;
+    @Mock
+    private MailConfig mailConfig;
 
     @Test
     public void shouldSenEmail() {
@@ -37,5 +41,7 @@ public class SimpleEmailServiceTest {
 
         //Then
         verify(javaMailSender, times(1)).send(mailMessage);
+        verify(mailConfig, atLeast(1)).getMailPassword();
+        verify(mailConfig, atLeast(1)).getMailSender();
     }
 }
