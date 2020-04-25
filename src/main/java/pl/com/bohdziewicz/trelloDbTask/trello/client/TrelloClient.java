@@ -1,6 +1,9 @@
 package pl.com.bohdziewicz.trelloDbTask.trello.client;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCard;
+import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.trello.config.TrelloConfig;
@@ -26,15 +29,20 @@ public class TrelloClient {
         this.trelloConfig = trelloConfig;
     }
 
-    public TrelloBoardDto[] getTrelloBoard() throws BoardNotFoundException {
+    public List<TrelloBoardDto> getTrelloBoard() throws BoardNotFoundException {
 
         URI url = getUri();
 
-        return Optional.ofNullable(restTemplate.getForObject(url, TrelloBoardDto[].class))
-                .orElseThrow(BoardNotFoundException::new);
+        final TrelloBoardDto[] trelloBoardsResponeDtoArray =
+                Optional.ofNullable(restTemplate.getForObject(url, TrelloBoardDto[].class))
+                        .orElseThrow(BoardNotFoundException::new);
+        if (trelloBoardsResponeDtoArray != null) {
+            return Arrays.asList(trelloBoardsResponeDtoArray);
+        }
+        return new ArrayList<>();
     }
 
-    public CreatedTrelloCard createNewCard(TrelloCardDto trelloCardDto) {
+    public CreatedTrelloCardDto createNewCard(TrelloCardDto trelloCardDto) {
 
         URI url =
                 UriComponentsBuilder.fromHttpUrl(trelloConfig.getTrelloApiEndpoint() + "/cards")
@@ -48,7 +56,7 @@ public class TrelloClient {
                         .encode()
                         .toUri();
 
-        return restTemplate.postForObject(url, null, CreatedTrelloCard.class);
+        return restTemplate.postForObject(url, null, CreatedTrelloCardDto.class);
     }
 
     private URI getUri() {

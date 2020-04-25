@@ -3,6 +3,7 @@ package pl.com.bohdziewicz.trelloDbTask.trello.client;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import pl.com.bohdziewicz.trelloDbTask.domain.BadgesFromCardDto;
-import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCard;
+import pl.com.bohdziewicz.trelloDbTask.domain.CreatedTrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.trello.config.TrelloConfig;
@@ -51,13 +52,13 @@ public class TrelloClientTest {
 
     // When
 
-    TrelloBoardDto[] fetchedTrelloBoards = trelloClient.getTrelloBoard();
+    List<TrelloBoardDto> fetchedTrelloBoards = trelloClient.getTrelloBoard();
 
     // Then
-    assertEquals(1, fetchedTrelloBoards.length);
-    assertEquals("testId", fetchedTrelloBoards[0].getId());
-    assertEquals("testBoard", fetchedTrelloBoards[0].getName());
-    assertEquals(new ArrayList<>(), fetchedTrelloBoards[0].getTrelloListDtos());
+    assertEquals(1, fetchedTrelloBoards.size());
+    assertEquals("testId", fetchedTrelloBoards.get(0).getId());
+    assertEquals("testBoard", fetchedTrelloBoards.get(0).getName());
+    assertEquals(new ArrayList<>(), fetchedTrelloBoards.get(0).getTrelloListDtos());
   }
 
   @Test
@@ -72,14 +73,14 @@ public class TrelloClientTest {
     TrelloCardDto trelloCardDto =
             new TrelloCardDto("Test task", "Test description", "top", "test_id");
 
-    CreatedTrelloCard createdTrelloCard =
-            new CreatedTrelloCard("1", "Test task", "http://test.com", new BadgesFromCardDto());
+      CreatedTrelloCardDto createdTrelloCardDto =
+              new CreatedTrelloCardDto("1", "Test task", "http://test.com", new BadgesFromCardDto());
 
-    when(restTemplate.postForObject(uri, null, CreatedTrelloCard.class))
-            .thenReturn(createdTrelloCard);
+      when(restTemplate.postForObject(uri, null, CreatedTrelloCardDto.class))
+              .thenReturn(createdTrelloCardDto);
 
     // When
-    CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCardDto);
+      CreatedTrelloCardDto newCard = trelloClient.createNewCard(trelloCardDto);
 
     // Then
     assertEquals("1", newCard.getId());
