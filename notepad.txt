@@ -1,2 +1,3 @@
 todo: actuator - dodać lub nie...
 todo: moduł z testami integracyjnymi
+todo: stronę główną aplikacji (index.html) z dynamiczną datą, godziną i informacją o aplikacji
