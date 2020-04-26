@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class StaticWEbPageController {
 
-    @RequestMapping("/")
+    @RequestMapping("/thymleaf_practice")
     public String index(Map<String, Object> model) {
 
         model.put("variable", "My Thymleaf variable");
@@ -16,6 +16,6 @@ public class StaticWEbPageController {
         model.put("two", 2);
         model.put("textVariable", "testText");
 
-        return "index";
+        return "thymleaf_practice";
     }
 }
