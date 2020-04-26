@@ -17,6 +17,8 @@ public class MailCreatorService {
 
         Context context = new Context();
         context.setVariable("message", message);
+        context.setVariable("tasks_url", "http://bohdziewicz.com.pl/java_tests/index.html");
+        context.setVariable("button", "Visit the website");
         return templateEngine.process("mail/created-trello-card-mail", context);
     }
 }
