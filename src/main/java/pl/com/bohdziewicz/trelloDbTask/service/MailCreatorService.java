@@ -25,6 +25,7 @@ public class MailCreatorService {
         context.setVariable("button", "Visit the website");
         context.setVariable("admin_name", adminConfig.getAdminName());
         context.setVariable("companyDetail", "Trello_DB_APP by bohdziewicz.com.pl");
+        context.setVariable("show_button", true);
         return templateEngine.process("mail/created-trello-card-mail", context);
     }
 }
