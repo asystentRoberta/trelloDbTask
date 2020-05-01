@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Static page of application</title>
+</head>
+<body>
+<h1>Test view</h1>
+
+<!--/*@thymesVar id="variable" type="pl.com.bohdziewicz.trelloDbTask.controller.StaticWEbPageController"*/-->
+<span th:text="${variable}"></span>
+<br>
+1+2 = <span th:text="${one} + ${two}"></span>
+<br>
+1*2 = <span th:text="${one}*${two}"></span>
+<br>
+<!--I have to find better way -->
+<span th:text="${two}"></span> + <span th:text="${two}"></span> * <span th:text="${two}"></span> = <span
+        th:text="${two} + ${two} * ${two}"></span>
+</body>
+</html>

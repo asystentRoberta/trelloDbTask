@@ -14,6 +14,7 @@ import pl.com.bohdziewicz.trelloDbTask.domain.TrelloBoardDto;
 import pl.com.bohdziewicz.trelloDbTask.domain.TrelloCardDto;
 import pl.com.bohdziewicz.trelloDbTask.trello.client.BoardNotFoundException;
 import pl.com.bohdziewicz.trelloDbTask.trello.client.TrelloClient;
+import pl.com.bohdziewicz.trelloDbTask.utils.MailTypes;
 
 import static java.util.Optional.ofNullable;
 
@@ -51,8 +52,9 @@ public class TrelloService {
         ofNullable(newCard).ifPresent(card ->
                 emailService.send(new Mail(
                         adminConfig.getAdminMail(),
-                        SUBJECT,
-                        "New card: " + trelloCardDto.getName() + " has been created on your Trello account")
+                        MailTypes.EMAIL_NEW_TRELLO_CARD.getSubjectOfMail(),
+                        "New card: " + trelloCardDto.getName() + " has been created on your Trello account.",
+                        MailTypes.EMAIL_NEW_TRELLO_CARD)
                 )
         );
         return newCard;
