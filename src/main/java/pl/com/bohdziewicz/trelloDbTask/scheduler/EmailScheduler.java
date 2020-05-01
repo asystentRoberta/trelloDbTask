@@ -10,14 +10,14 @@ import pl.com.bohdziewicz.trelloDbTask.config.AdminConfig;
 import pl.com.bohdziewicz.trelloDbTask.domain.Mail;
 import pl.com.bohdziewicz.trelloDbTask.repository.TaskRepository;
 import pl.com.bohdziewicz.trelloDbTask.service.SimpleEmailService;
+import pl.com.bohdziewicz.trelloDbTask.utils.MailTypes;
 
 @Component
 public class EmailScheduler {
 
-    private SimpleEmailService simpleEmailService;
-    private TaskRepository taskRepository;
-    private AdminConfig adminConfig;
-    private static final String SUBJECT = "Tasks: Once a day email";
+    private final SimpleEmailService simpleEmailService;
+    private final TaskRepository taskRepository;
+    private final AdminConfig adminConfig;
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleMailMessage.class);
 
     EmailScheduler(SimpleEmailService simpleEmailService,
@@ -40,8 +40,9 @@ public class EmailScheduler {
         stringBuilder.append(endOfSTatemnt);
         simpleEmailService.send(new Mail(
                 adminConfig.getAdminMail(),
-                SUBJECT,
-                stringBuilder.toString())
+                MailTypes.EMAIL_SCHEDULER.getSubjectOfMail(),
+                stringBuilder.toString(),
+                MailTypes.EMAIL_SCHEDULER)
         );
         LOGGER.info("Scheduled an email was sent");
     }

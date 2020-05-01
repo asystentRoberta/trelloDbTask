@@ -11,6 +11,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 
 import pl.com.bohdziewicz.trelloDbTask.config.MailConfig;
 import pl.com.bohdziewicz.trelloDbTask.domain.Mail;
+import pl.com.bohdziewicz.trelloDbTask.utils.MailTypes;
 
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
@@ -29,7 +30,8 @@ public class SimpleEmailServiceTest {
     public void shouldSenEmail() {
 
         //Given
-        Mail mail = new Mail("test@test.com", "Test", "Test Message");
+        Mail mail = new Mail("test@test.com", MailTypes.EMAIL_NEW_TRELLO_CARD.getSubjectOfMail(), "Test Message",
+                MailTypes.EMAIL_NEW_TRELLO_CARD);
 
         MimeMessagePreparator mailMessage = mimeMessage -> {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
