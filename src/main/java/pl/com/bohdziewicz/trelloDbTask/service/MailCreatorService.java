@@ -10,6 +10,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import pl.com.bohdziewicz.trelloDbTask.config.AdminConfig;
+import pl.com.bohdziewicz.trelloDbTask.domain.Task;
 
 @Service
 public class MailCreatorService {
@@ -19,6 +20,8 @@ public class MailCreatorService {
     @Autowired
     @Qualifier("templateEngine")
     private TemplateEngine templateEngine;
+    @Autowired
+    private DbService dbService;
 
     public String buildTrelloCardEmail(String message) {
 
@@ -37,5 +40,17 @@ public class MailCreatorService {
         context.setVariable("app_functions", functionality);
 
         return templateEngine.process("mail/created-trello-card-mail", context);
+    }
+
+    public String buildScheduledMail(String message) {
+
+        List<Task> taskInDb = new ArrayList<>(dbService.getAllTask());
+        Context context = new Context();
+        context.setVariable("message", message);
+        context.setVariable("show_button", false);
+        context.setVariable("is_friend", true);
+        context.setVariable("admin_name", adminConfig);
+        context.setVariable("tasks_in_db", taskInDb);
+        return templateEngine.process("mail/scheulded-mail", context);
     }
 }

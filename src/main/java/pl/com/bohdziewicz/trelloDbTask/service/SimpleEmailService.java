@@ -48,7 +48,16 @@ public class SimpleEmailService {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setSubject(mail.getSubject());
-            messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
+            switch (mail.getMailTypes()) {
+                case EMAIL_SCHEDULER:
+                    messageHelper.setText(mailCreatorService.buildScheduledMail(mail.getMessage()), true);
+                    break;
+                case EMAIL_NEW_TRELLO_CARD:
+                    messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
+                    break;
+                default:
+                    LOGGER.error("Unknown mail type.");
+            }
         };
     }
 
