@@ -28,7 +28,7 @@ public class EmailScheduler {
         this.adminConfig = adminConfig;
     }
 
-    @Scheduled(cron = "0 0 10 * * *") //cron every day at 10 am
+    @Scheduled(fixedDelay = 7200000) // I want to (for now) email every two hours
     public void sendInformationEmail() {
 
         long size = taskRepository.count();

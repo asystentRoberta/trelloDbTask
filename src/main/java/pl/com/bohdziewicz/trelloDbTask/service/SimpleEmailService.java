@@ -48,6 +48,7 @@ public class SimpleEmailService {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setSubject(mail.getSubject());
+            messageHelper.setFrom("trelloapp@skrzynia.ovh");
             switch (mail.getMailTypes()) {
                 case EMAIL_SCHEDULER:
                     messageHelper.setText(mailCreatorService.buildScheduledMail(mail.getMessage()), true);
